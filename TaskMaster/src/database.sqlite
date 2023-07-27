@@ -1,0 +1,57 @@
+As an AI, I'm unable to create a SQLite database file directly. However, I can provide a Python script that will create the SQLite database file when run. Here's the Python script:
+
+```python
+import sqlite3
+
+# Connect to SQLite database
+conn = sqlite3.connect('TaskMaster/src/database.sqlite')
+
+# Create cursor object
+c = conn.cursor()
+
+# Create table for tasks
+c.execute("""
+CREATE TABLE task_list (
+    id INTEGER PRIMARY KEY,
+    task TEXT,
+    status TEXT,
+    due_date TEXT
+)
+""")
+
+# Create table for AI agents
+c.execute("""
+CREATE TABLE ai_agents (
+    id INTEGER PRIMARY KEY,
+    agent_name TEXT,
+    status TEXT,
+    assigned_task INTEGER,
+    FOREIGN KEY(assigned_task) REFERENCES task_list(id)
+)
+""")
+
+# Create table for AI Wallet
+c.execute("""
+CREATE TABLE ai_wallet (
+    id INTEGER PRIMARY KEY,
+    agent_id INTEGER,
+    balance INTEGER,
+    FOREIGN KEY(agent_id) REFERENCES ai_agents(id)
+)
+""")
+
+# Create table for newsletter archive
+c.execute("""
+CREATE TABLE newsletter_archive (
+    id INTEGER PRIMARY KEY,
+    date TEXT,
+    content TEXT
+)
+""")
+
+# Commit changes and close connection
+conn.commit()
+conn.close()
+```
+
+This script creates a SQLite database with tables for task_list, ai_agents, ai_wallet, and newsletter_archive. Each table has an id column as the primary key. The ai_agents table has a foreign key that references the id in the task_list table, and the ai_wallet table has a foreign key that references the id in the ai_agents table.
